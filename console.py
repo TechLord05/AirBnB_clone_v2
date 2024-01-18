@@ -114,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
+        """Create an object of any class with given parameters."""
         if not args:
             print("** class name missing **")
             return
@@ -127,22 +127,39 @@ class HBNBCommand(cmd.Cmd):
         try:
             new_instance = HBNBCommand.classes[class_name]()
             for param in params:
-                key, value = param.split('=')
-                key = key.replace("_", " ")
-                try:
-                    setattr(new_instance, key, eval(value.replace('\"', '"')))
-                except (ValueError, SyntaxError, NameError) as r:
-                    print("Invalid parameter value for {}: {}".format
-                          (key, str(r)))
-                    return
-        except Exception as r:
-            print("Error creating instance: {}".format(str(r)))
-            return
+                key_value = param.split('=')
+                if len(key_value) == 2:
+                    key, value = key_value
+                    key = key.replace("_", " ")
+
+                    # Handle string value
+                    if value.startswith('"') and value.endswith('"'):
+                        value = value[1:-1].replace('\\"', '"')
+
+                    # Handle float value
+                    elif '.' in value:
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            print("Invalid parameter value for {}: {}".format(key, value))
+                            return
+
+                    # Handle integer value
+                    else:
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            print("Invalid parameter value for {}: {}".format(key, value))
+                            return
+
+                    setattr(new_instance, key, value)
 
             storage.save()
             print(new_instance.id)
-            storage.save()
 
+        except Exception as e:
+            print("Error creating instance: {}".format(str(e)))
+   
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
