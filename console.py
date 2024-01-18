@@ -132,7 +132,8 @@ class HBNBCommand(cmd.Cmd):
                 try:
                     setattr(new_instance, key, eval(value.replace('\"', '"')))
                 except (ValueError, SyntaxError, NameError) as r:
-                    print("Invalid parameter value for {}: {}".format(key, str(r)))
+                    print("Invalid parameter value for {}: {}".format
+                          (key, str(r)))
                     return
         except Exception as r:
             print("Error creating instance: {}".format(str(r)))
@@ -203,7 +204,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -296,7 +297,7 @@ class HBNBCommand(cmd.Cmd):
             args = args.partition(' ')
 
             # if att_name was not quoted arg
-            if not att_name and args[0] !=' ':
+            if not att_name and args[0] != ' ':
                 att_name = args[0]
             # check for quoted val arg
             if args[2] and args[2][0] == '\"':
@@ -335,6 +336,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
