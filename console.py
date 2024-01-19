@@ -141,7 +141,8 @@ class HBNBCommand(cmd.Cmd):
                         try:
                             value = float(value)
                         except ValueError:
-                            print("Invalid parameter value for {}: {}".format(key, value))
+                            print("Invalid parameter value for {}: {}".format
+                                  (key, value))
                             return
 
                     # Handle integer value
@@ -149,7 +150,8 @@ class HBNBCommand(cmd.Cmd):
                         try:
                             value = int(value)
                         except ValueError:
-                            print("Invalid parameter value for {}: {}".format(key, value))
+                            print("Invalid parameter value for {}: {}".format
+                                  (key, value))
                             return
 
                     setattr(new_instance, key, value)
@@ -159,7 +161,7 @@ class HBNBCommand(cmd.Cmd):
 
         except Exception as e:
             print("Error creating instance: {}".format(str(e)))
-   
+
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
